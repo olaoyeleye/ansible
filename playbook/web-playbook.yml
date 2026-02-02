@@ -9,13 +9,13 @@
     - name: Install Nginx on Linux RedHat Family
       package: 
         name: nginx
-        state: "${{ state }}"
+        state: "{{ state }}"
       when: ansible_facts["os_family"] == "RedHat"
       
     - name: Install Nginx on Linux Debian Family
       package: 
         name: nginx
-        state: "${{ state }}"
+        state: "{{ state }}"
       when: ansible_facts["os_family"] == "Debian"
 
 
