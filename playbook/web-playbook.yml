@@ -10,19 +10,19 @@
       package: 
         - name: nginx
           state: present
-          when: gather_facts["os_family"] == "RedHat"
+        when: gather_facts["os_family"] == "RedHat"
       
     - name: Install Nginx on Linux Debian Family
       package: 
         - name: nginx
           state: present
-          when: gather_facts["os_family"] == "Debian"
+        when: gather_facts["os_family"] == "Debian"
 
 
     - name: Nginx Started and Enabled
       service:
         - name: nginx
-          stated: Started
+          state: Started
           enabled: true
 
     
