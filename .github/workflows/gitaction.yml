@@ -1,5 +1,6 @@
 name: working on ansible
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - dev
@@ -7,7 +8,7 @@ on:
       - feat-dev
 jobs:
   first-task:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses:  Actions/Checkout@v4
