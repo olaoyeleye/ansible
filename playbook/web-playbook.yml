@@ -21,8 +21,8 @@
 
     - name: Nginx Started and Enabled
       service:
-        - name: nginx
-          state: Started
-          enabled: true
+        name: nginx
+        state: started
+        enabled: true
 
     
