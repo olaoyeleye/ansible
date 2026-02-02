@@ -7,13 +7,13 @@
 
   tasks:
     - name: Install Nginx on Linux RedHat Family
-      yum: 
+      package: 
         - name: nginx
           state: present
           when: gather_facts["os_family"] == "RedHat"
       
     - name: Install Nginx on Linux Debian Family
-      apt: 
+      package: 
         - name: nginx
           state: present
           when: gather_facts["os_family"] == "Debian"
