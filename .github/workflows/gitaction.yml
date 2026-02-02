@@ -19,7 +19,7 @@ jobs:
 
       - name: pem file
         run: |
-          echo "${{ credentials.KEY_NAME }}" >> key.pem
+          echo "${{ credentials.KEY_NAME }}" > key.pem
           chmod 400 key.pem
           ls -ltar
 
