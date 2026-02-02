@@ -12,14 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses:  Actions/Checkout@v4
+        uses:  actions/checkout@v4
       
       - name: list
         run: ls -ltar
 
       - name: pem file
         run: |
-          echo "{{ credentials.KEY_NAME }}" >> key.pem
+          echo "${{ credentials.KEY_NAME }}" >> key.pem
           chmod 400 key.pem
           ls -ltar
 
