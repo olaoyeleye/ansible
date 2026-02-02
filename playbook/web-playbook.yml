@@ -8,15 +8,15 @@
   tasks:
     - name: Install Nginx on Linux RedHat Family
       package: 
-        - name: nginx
-          state: present
-        when: gather_facts["os_family"] == "RedHat"
+        name: nginx
+        state: present
+      when: gather_facts["os_family"] == "RedHat"
       
     - name: Install Nginx on Linux Debian Family
       package: 
-        - name: nginx
-          state: present
-        when: gather_facts["os_family"] == "Debian"
+        name: nginx
+        state: present
+      when: gather_facts["os_family"] == "Debian"
 
 
     - name: Nginx Started and Enabled
