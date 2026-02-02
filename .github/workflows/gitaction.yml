@@ -25,4 +25,4 @@ jobs:
 
       - name: Ansible play book now
         run: |
-          ansible-playbook -i inventory/inventory.ini playbook/web-playbook.yml
+          ansible-playbook -i inventory/inventory.ini playbook/web-playbook.yml -vvvv
