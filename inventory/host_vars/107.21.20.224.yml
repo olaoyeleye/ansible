@@ -1,3 +1,4 @@
 ansible_user: "ubuntu"
 index_file_src: "index.html.j2"
 index_file_dest: "/var/www/html/index.nginx-debian.html"
+
