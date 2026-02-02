@@ -1,0 +1,28 @@
+---
+- name: Deploy web application
+  hosts: web
+  gather_facts: true
+  become: true
+
+
+  tasks:
+    - name: Install Nginx on Linux RedHat Family
+      yum: 
+        - name: nginx
+          state: present
+      when: gather_facts["os_family"] == "RedHat"
+      
+    - name: Install Nginx on Linux Debian Family
+      apt: 
+        - name: nginx
+          state: present
+      when: gather_facts["os_family"] == "Debian"
+
+
+    - name: Nginx Started and Enabled
+      service:
+        - name: nginx
+          stated: Started
+          enabled: true
+
+    
