@@ -21,12 +21,9 @@ jobs:
         run: |
           echo "${{ secrets.KEY_NAME }}" > key.pem
           chmod 400 key.pem
-          ls -ltar
-          
+
       - name: Run playbook
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
-
-      - name: Ansible play book now
         run: |
           ansible-playbook -i inventory/inventory.ini playbook/web-playbook.yml -vvvv
