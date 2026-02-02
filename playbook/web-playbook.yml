@@ -10,13 +10,13 @@
       yum: 
         - name: nginx
           state: present
-      when: gather_facts["os_family"] == "RedHat"
+          when: gather_facts["os_family"] == "RedHat"
       
     - name: Install Nginx on Linux Debian Family
       apt: 
         - name: nginx
           state: present
-      when: gather_facts["os_family"] == "Debian"
+          when: gather_facts["os_family"] == "Debian"
 
 
     - name: Nginx Started and Enabled
