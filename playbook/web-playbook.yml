@@ -24,5 +24,23 @@
         name: nginx
         state: started
         enabled: true
-
     
+    - name: Template to copy index file
+        template:
+          src: "{{ index_file_src }}"
+          dst: "{{ index_file_dest }}"
+
+    - name: Create a repository for assets
+        file: 
+          path: "{{ nginx_artifacts_dest}}"
+          state: directory
+
+    - name: copy app.js into 
+        copy:
+          src: "{{ nginx_artifacts_app }}"  
+          dst: "{{ nginx_artifacts_dest }}"
+
+    - name: copy nginx-artifacts
+        copy:
+          src: "{{ nginx_artifacts_styles_css}}"  
+          dst: "{{ nginx_artifacts_dest }}"

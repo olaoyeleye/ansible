@@ -1,3 +1,4 @@
 ansible_user: "ec2-user"
-index_file_src: "index.html.j2"
+index_file_src: "template/index_page.j2"
 index_file_dest: "/usr/share/nginx/html/index.html"
+nginx_artifacts_dest: "/usr/share/nginx/html/assets"
