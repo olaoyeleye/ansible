@@ -26,21 +26,21 @@
         enabled: true
     
     - name: Template to copy index file
-        template:
-          src: "{{ index_file_src }}"
-          dest: "{{ index_file_dest }}"
+      template:
+        src: "{{ index_file_src }}"
+        dest: "{{ index_file_dest }}"
 
     - name: Create a repository for assets
-        file: 
-          path: "{{ nginx_artifacts_dest}}"
-          state: directory
+      file: 
+        path: "{{ nginx_artifacts_dest}}"
+        state: directory
 
     - name: copy app.js into 
-        copy:
-          src: "{{ nginx_artifacts_app }}"  
-          dest: "{{ nginx_artifacts_dest }}"
+      copy:
+        src: "{{ nginx_artifacts_app }}"  
+        dest: "{{ nginx_artifacts_dest }}"
 
     - name: copy nginx-artifacts
-        copy:
-          src: "{{ nginx_artifacts_styles_css}}"  
-          dest: "{{ nginx_artifacts_dest }}"
+      copy:
+        src: "{{ nginx_artifacts_styles_css}}"  
+        dest: "{{ nginx_artifacts_dest }}"
