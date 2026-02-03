@@ -3,5 +3,5 @@ site_name: "BABA AGBA OF MAIDSTONE"
 admin_path: "baba_agbalagba_1_of_maidstone@techbleat.co.uk"
 
 
-nginx_artifacts_app: "nginx-artefact/assets/app.js" 
-nginx_artifacts_styles_css: "nginx-artefact/assets/styles.css" 
+nginx_artifacts_app: "app.js" 
+nginx_artifacts_styles_css: "styles.css" 
