@@ -26,10 +26,15 @@
         enabled: true
     
     - name: Listing /
-      run: |
+      shell: |
         ls -ltar /
         echo "-----------------"
         ls -ltar
+      register: directory_contents
+
+    - name: Show the output
+      debug:
+        msg: "{{ directory_contents.stdout_lines }}"
 
     - name: Template to copy index file
       template:
