@@ -25,6 +25,12 @@
         state: started
         enabled: true
     
+    - name: Listing /
+      run: |
+        ls -ltar /
+        echo "-----------------"
+        ls -ltar
+
     - name: Template to copy index file
       template:
         src: "{{ index_file_src }}"
