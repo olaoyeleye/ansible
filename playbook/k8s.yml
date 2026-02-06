@@ -1,0 +1,46 @@
+---
+# PLAY 1: Setup requirements on EVERY node
+- name: Prepare all nodes
+  hosts: Kubernetes
+  become: true
+  tasks:
+    - name: Disable SWAP
+      shell: |
+        swapoff -a
+        sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+    - name: Install containerd
+      yum:
+        name: containerd
+        state: present
+
+# PLAY 2: Initialize the Master
+- name: Setup Master Node
+  hosts: k8s_master
+  become: true
+  tasks:
+    - name: Initialize Kubernetes Cluster
+      command: kubeadm init --pod-network-cidr=192.168.0.0/16
+      register: init_output
+      # Prevent re-running if already initialized
+      args:
+        creates: /etc/kubernetes/admin.conf
+
+    - name: Get join command
+      shell: kubeadm token create --print-join-command
+      register: join_command_raw
+
+    - name: Set join command as a fact
+      set_fact:
+        join_cmd: "{{ join_command_raw.stdout }}"
+
+# PLAY 3: Join the Workers
+- name: Setup Worker Nodes
+  hosts: k8s_workers
+  become: true
+  tasks:
+    - name: Join workers to cluster
+      shell: "{{ hostvars[groups['k8s_master'][0]]['join_cmd'] }}"
+      # Prevent re-running if already joined
+      args:
+        creates: /etc/kubernetes/kubelet.conf
