@@ -1,9 +1,19 @@
 ---
 # PLAY 1: Setup requirements on EVERY node
 - name: Prepare all nodes
-  hosts: Kubernetes
+  hosts: kubernetes
   become: true
-  tasks:
+  tasks: 
+    - name: Add Kubernetes repository
+        yum_repository:
+          name: kubernetes
+          description: Kubernetes
+          baseurl: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
+          enabled: yes
+          gpgcheck: yes
+          repo_gpgcheck: yes
+          gpgkey: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
+
     - name: Disable SWAP
       shell: |
         swapoff -a
