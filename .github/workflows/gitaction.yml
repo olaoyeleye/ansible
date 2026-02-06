@@ -26,4 +26,7 @@ jobs:
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
         run: |
-          ansible-playbook -i inventory/inventory.ini playbook/web-playbook.yml -vvvv
+          #ansible-playbook -i inventory/inventory.ini playbook/web-playbook.yml -vvvv
+
+          ansible-playbook -i inventory/inventory.ini playbook/k8s.yml -vvvv
+
