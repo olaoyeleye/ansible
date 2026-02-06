@@ -1,30 +1,44 @@
 ---
-# PLAY 1: Setup requirements on EVERY node
+# PLAY 1: Setup requirements on EVERY node (Master + Workers)
 - name: Prepare all nodes
   hosts: kubernetes
   become: true
   tasks: 
     - name: Add Kubernetes repository
-        yum_repository:
-          name: kubernetes
-          description: Kubernetes
-          baseurl: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
-          enabled: yes
-          gpgcheck: yes
-          repo_gpgcheck: yes
-          gpgkey: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
+      yum_repository:
+        name: kubernetes
+        description: Kubernetes
+        baseurl: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
+        enabled: yes
+        gpgcheck: yes
+        repo_gpgcheck: yes
+        gpgkey: https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
 
-    - name: Disable SWAP
+    - name: Disable SWAP (Required for K8s)
       shell: |
         swapoff -a
         sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-    - name: Install containerd
-      yum:
-        name: containerd
+    - name: Load kernel modules for networking
+      modprobe:
+        name: "{{ item }}"
         state: present
+      loop: [ 'overlay', 'br_netfilter' ]
 
-# PLAY 2: Initialize the Master
+    - name: Install Containerd and K8s tools
+      yum:
+        name: [ 'containerd', 'kubelet', 'kubeadm', 'kubectl' ]
+        state: present
+        update_cache: yes
+
+    - name: Enable and start services
+      service:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+      loop: [ 'containerd', 'kubelet' ]
+
+# PLAY 2: Initialize the Master Node
 - name: Setup Master Node
   hosts: k8s_master
   become: true
@@ -32,7 +46,6 @@
     - name: Initialize Kubernetes Cluster
       command: kubeadm init --pod-network-cidr=192.168.0.0/16
       register: init_output
-      # Prevent re-running if already initialized
       args:
         creates: /etc/kubernetes/admin.conf
 
@@ -44,13 +57,12 @@
       set_fact:
         join_cmd: "{{ join_command_raw.stdout }}"
 
-# PLAY 3: Join the Workers
+# PLAY 3: Join the Worker Nodes
 - name: Setup Worker Nodes
   hosts: k8s_workers
   become: true
   tasks:
     - name: Join workers to cluster
       shell: "{{ hostvars[groups['k8s_master'][0]]['join_cmd'] }}"
-      # Prevent re-running if already joined
       args:
         creates: /etc/kubernetes/kubelet.conf
